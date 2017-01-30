@@ -140,6 +140,6 @@ class GAResourceController(PackageController):
             plugin.GoogleAnalyticsPlugin.analytics_queue.put(data_dict)
 
     def resource_download(self, id, resource_id, filename=None):
-        self._post_analytics(c.user, "Resource", "Download", resource_id)
+        self._post_analytics(c.user, "Resource", "Download", filename)
         return PackageController.resource_download(self, id, resource_id,
                                                    filename)
