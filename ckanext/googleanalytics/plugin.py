@@ -47,7 +47,7 @@ class AnalyticsPostThread(threading.Thread):
 
 class GoogleAnalyticsPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurable, inherit=True)
-    p.implements(p.IGenshiStreamFilter, inherit=True)
+    # p.implements(p.IGenshiStreamFilter, inherit=True)
     p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.ITemplateHelpers)

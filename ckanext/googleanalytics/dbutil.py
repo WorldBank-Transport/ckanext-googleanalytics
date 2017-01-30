@@ -83,9 +83,9 @@ See commit ffa86c010d5d25fa1881c6b915e48f3b44657612
 """
 def get_top_packages(limit=20):
     items = []
-    authorizer = Authorizer()
-    q = authorizer.authorized_query(PSEUDO_USER__VISITOR,
-                                    model.Package)
+    # authorizer = Authorizer()
+    # q = authorizer.authorized_query(PSEUDO_USER__VISITOR,
+    #                                 model.Package)
     connection = model.Session.connection()
     package_stats = get_table('package_stats')
     s = select([package_stats.c.package_id,
@@ -94,10 +94,13 @@ def get_top_packages(limit=20):
                 .order_by(package_stats.c.visits_recently.desc())
     res = connection.execute(s).fetchmany(limit)
     for package_id, recent, ever in res:
-        item = q.filter("package.id = '%s'" % package_id)
+        # item = q.filter("package.id = '%s'" % package_id)
+        item = model.Session.query(model.Package)\
+               .filter("package.id = '%s'" % package_id)
         if not item.count():
             continue
         items.append((item.first(), recent, ever))
+    print 'packages', len(items)
     return items
 
 

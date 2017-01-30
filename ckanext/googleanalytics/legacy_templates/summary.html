@@ -1,11 +1,13 @@
-<html xmlns:py="http://genshi.edgewall.org/"
-  xmlns:i18n="http://genshi.edgewall.org/i18n"
-  xmlns:xi="http://www.w3.org/2001/XInclude"
-  py:strip="">
-  
-  <py:def function="page_title">Analytics for ${g.site_title}</py:def>
+{% extends 'page.html'%}
 
-  <div py:match="content">
+{% block secondary_content %}
+<h1 >Analytics for {{g.site_title}}</h1>
+
+{% endblock %}
+
+{% block content_action %}
+
+  <div>
 
       <h2>Most viewed datasets</h2> 
       <p><em>Note: this data does not include API calls</em></p>
@@ -16,14 +18,14 @@
 	   <th>Unique views (last 14 days)</th>
 	   <th>Unique views (since recording started)</th>
 	 </tr>
-        <py:for each="package, recent, ever in c.top_packages">
+        {% for package, recent, ever in c.top_packages %}
 	  <tr>
-	    <td>${h.link_to(package.title or package.name, h.url_for(controller='package', action='read', id=package.name))}
+	    <td>{{package.name}}
 	    </td>
-	    <td>${recent}</td>
-	    <td>${ever}</td>
+	    <td>{{recent}}</td>
+	    <td>{{ever}}</td>
 	  </tr>
-        </py:for>
+        {% endfor %}
        </table>
 
       <h2>Most downloaded resources</h2> 
@@ -33,21 +35,19 @@
 	   <th>Downloads (last 14 days)</th>
 	   <th>Downloads (since recording started)</th>
 	 </tr>
-        <py:for each="resource, recent, ever in c.top_resources">
+        {% for resource, recent, ever in c.top_resources %}
 	  <tr>
-	    <td>${h.link_to(h.truncate(resource.description, length=50,whole_word=True) if resource.description else resource.format, h.url_for(controller='package',action='resource_read',id=resource.resource_group.package.id,resource_id=resource.id))}<br />
-	      <em>in ${h.link_to(resource.resource_group.package.title or resource.resource_group.package.name, h.url_for(controller='package', action='read', id=resource.resource_group.package.name))}</em>
+	    <td>{{resource.name}}<br />
 	    </td>
-	    <td>${recent}</td>
-	    <td>${ever}</td>
+	    <td>{{recent}}</td>
+	    <td>{{ever}}</td>
 	  </tr>
-        </py:for>
+        {% endfor %}
        </table>
 
   </div>
 
-  <xi:include href="layout.html" />
-</html>
+  {% endblock %}
 
 
 

@@ -49,6 +49,8 @@ def get_profile_id(service):
     """
     accounts = service.management().accounts().list().execute()
 
+    print accounts, 'service class', type(service)
+
     if not accounts.get('items'):
         return None
 
