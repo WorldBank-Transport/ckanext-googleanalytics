@@ -122,7 +122,8 @@ class GAApiController(ApiController):
 class GAResourceController(PackageController):
     # intercept API calls to record via google analytics
     def _post_analytics(
-            self, user, request_obj_type, request_function, request_id):
+            self, user, request_obj_type, request_function, request_id,
+             optional):
         if config.get('googleanalytics.id'):
             data_dict = {
                 "v": 1,
@@ -136,10 +137,13 @@ class GAResourceController(PackageController):
                 "ec": "CKAN Resource Download Request",
                 "ea": request_obj_type+request_function,
                 "el": request_id,
+                "01": optional,
             }
             plugin.GoogleAnalyticsPlugin.analytics_queue.put(data_dict)
 
     def resource_download(self, id, resource_id, filename=None):
-        self._post_analytics(c.user, "Resource", "Download", filename)
+        optional = {'filename':str(filename)}
+        self._post_analytics(c.user, "Resource", "Download", resource_id,
+         optional)
         return PackageController.resource_download(self, id, resource_id,
                                                    filename)
