@@ -345,8 +345,9 @@ class LoadAnalytics(CkanCommand):
         for date_name, date in dates.iteritems():
             for query in queries:
                 results = self.ga_query(query_filter=query,
-                                        metrics='ga:uniquePageviews',
-                                        from_date=date)
+                                        metrics='ga:totalEvents',
+                                        from_date=date,
+                                        sort='ga:totalEvents')
                 if 'rows' in results:
                     for result in results.get('rows'):
                         package = result[0]
