@@ -1,14 +1,26 @@
 {% extends 'page.html'%}
 
 {% block secondary_content %}
-<h1 >Analytics for {{g.site_title}}</h1>
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="icon-info-sign"></i>
+    Analytics
+  </h2>
+  <div class="module-content">
+    <p>
+      {% trans %}
+        These are site analytics queried from google analytics site.
+      {% endtrans %}
+    </p>
+  </div>
+</div>
 
 {% endblock %}
 
 {% block content_action %}
 
   <div>
-
+  	{%if c.top_packages %}
       <h2>Most viewed datasets</h2> 
       <p><em>Note: this data does not include API calls</em></p>
 
@@ -27,6 +39,7 @@
 	  </tr>
         {% endfor %}
        </table>
+    {% endif %}
 
       <h2>Most downloaded resources</h2> 
        <table class="table table-condensed table-bordered table-striped">
