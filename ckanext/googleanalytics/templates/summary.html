@@ -1,0 +1,69 @@
+{% extends 'page.html'%}
+
+{% block secondary_content %}
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="icon-info-sign"></i>
+    Analytics
+  </h2>
+  <div class="module-content">
+    <p>
+      {% trans %}
+        These are site analytics about the datasets resources.
+      {% endtrans %}
+    </p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block content_action %}
+
+  <div>
+  	{%if c.top_packages %}
+      <h2>Most viewed datasets</h2> 
+      <p><em>Note: this data does not include API calls</em></p>
+
+       <table class="table table-condensed table-bordered table-striped">
+	 <tr>
+	   <th>Dataset</th>
+	   <th>Unique views (last 14 days)</th>
+	   <th>Unique views (since recording started)</th>
+	 </tr>
+        {% for package, recent, ever in c.top_packages %}
+	  <tr>
+	    <td>{{package.name}}
+	    </td>
+	    <td>{{recent}}</td>
+	    <td>{{ever}}</td>
+	  </tr>
+        {% endfor %}
+       </table>
+    {% endif %}
+
+    {%if c.top_resources %}
+
+      <h2>Most downloaded resources</h2> 
+       <table class="table table-condensed table-bordered table-striped">
+	 <tr>
+	   <th>Resource</th>
+	   <th>Downloads (last 14 days)</th>
+	   <th>Downloads (since recording started)</th>
+	 </tr>
+        {% for resource, recent, ever in c.top_resources %}
+	  <tr>
+	    <td>{{resource.name}}<br />
+	    </td>
+	    <td>{{recent}}</td>
+	    <td>{{ever}}</td>
+	  </tr>
+        {% endfor %}
+       </table>
+    {% endif %}
+
+  </div>
+
+  {% endblock %}
+
+
+
