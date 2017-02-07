@@ -5,6 +5,8 @@ import dbutil
 import urllib
 import urllib2
 
+import ckan.plugins as p
+
 import logging
 import ckan.logic as logic
 import hashlib
@@ -17,15 +19,25 @@ from paste.util.multidict import MultiDict
 from ckan.controllers.api import ApiController
 from ckan.controllers.package import PackageController
 
+
+
 log = logging.getLogger('ckanext.googleanalytics')
 
 
 class GAController(BaseController):
     def view(self):
         # get package objects corresponding to popular GA content
-        c.top_resources = dbutil.get_top_resources(limit=20)
-        c.top_packages = dbutil.get_top_packages(limit=20)
-        return render('summary.html')
+        user = p.toolkit.c.userobj
+        if user:
+            if user.sysadmin:
+                c.top_resources = dbutil.get_top_resources(limit=20)
+                c.top_packages = dbutil.get_top_packages(limit=20)
+                return render('summary.html')
+                
+        return render("error.html")
+            
+        
+
 
 
 class GAApiController(ApiController):
