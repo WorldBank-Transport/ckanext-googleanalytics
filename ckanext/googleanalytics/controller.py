@@ -36,10 +36,6 @@ class GAController(BaseController):
                 
         return render("error.html")
             
-        
-
-
-
 class GAApiController(ApiController):
     # intercept API calls to record via google analytics
     def _post_analytics(
