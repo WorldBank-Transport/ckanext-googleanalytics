@@ -4,7 +4,6 @@ import dbutil
 
 import urllib
 import urllib2
-
 import ckan.plugins as p
 
 import logging
@@ -18,8 +17,6 @@ from paste.util.multidict import MultiDict
 
 from ckan.controllers.api import ApiController
 from ckan.controllers.package import PackageController
-
-
 
 log = logging.getLogger('ckanext.googleanalytics')
 
