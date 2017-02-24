@@ -27,18 +27,9 @@ log = logging.getLogger('ckanext.googleanalytics')
 class GAController(BaseController):
     def view(self):
         # get package objects corresponding to popular GA content
-        user = p.toolkit.c.userobj
-        if user:
-            if user.sysadmin:
-                c.top_resources = dbutil.get_top_resources(limit=20)
-                c.top_packages = dbutil.get_top_packages(limit=20)
-                return render('summary.html')
-                
-        return render("error.html")
-            
-        
-
-
+        c.top_resources = dbutil.get_top_resources(limit=20)
+        c.top_packages = dbutil.get_top_packages(limit=20)
+        return render('summary.html')
 
 class GAApiController(ApiController):
     # intercept API calls to record via google analytics
