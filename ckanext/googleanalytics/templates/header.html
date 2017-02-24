@@ -1,0 +1,143 @@
+{% block header_wrapper %}
+
+<div class="top-fixed">
+    <div class="row">
+
+      <div class="top_nav">
+      {% block header_account %}
+  <header class="account-masthead">
+    <div class="container ">
+      {% block header_account_container_content %}
+        {% if c.userobj %}
+          <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
+            <ul class="unstyled">
+              {% block header_account_logged %}
+              {% if c.userobj.sysadmin %}
+                <li>
+                  <a href="{{ h.url_for(controller='admin', action='index') }}" title="{{ _('Sysadmin settings') }}">
+                    <i class="icon-legal"></i>
+                  </a>
+                </li>
+              {% endif %}
+              <li>
+                <a href="{{ h.url_for(controller='user', action='read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
+                  {{ h.gravatar((c.userobj.email_hash if c and c.userobj else ''), size=22) }}
+                  <span class="username">{{ c.userobj.display_name }}</span>
+                </a>
+              </li>
+              {% set new_activities = h.new_activities() %}
+              <li class="notifications {% if new_activities > 0 %}notifications-important{% endif %}">
+                {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities) %}
+                <a href="{{ h.url_for(controller='user', action='dashboard') }}" title="{{ notifications_tooltip }}">
+                  <i class="icon-dashboard"></i>
+                  <span>{{ new_activities }}</span>
+                </a>
+              </li>
+              {% block header_account_settings_link %}
+                <li>
+                  <a href="{{ h.url_for(controller='user', action='edit', id=c.userobj.name) }}" title="{{ _('Edit settings') }}">
+                    <i class="icon-cog"></i>
+                  </a>
+                </li>
+              {% endblock %}
+              {% block analytics_link %}
+                <li>
+                  <a href="{{ h.url_for('analytics/dataset/top') }}" title="{{ _('Analytics') }}">
+                    <i class="icon-bar-chart"></i>
+                  </a>
+                </li>
+              {% endblock %}
+              {% block header_account_log_out_link %}
+                <li>
+                  <a href="{{ h.url_for('/user/_logout') }}" title="{{ _('Log out') }}">
+                    <i class="icon-signout"></i>
+                  </a>
+                </li>
+              {% endblock %}
+              <li><a href="{{ h.url('/pages/faq') }}" class="sub">{{ _('FAQ') }}</a></li>
+              {% if not c.resource %}
+                <li>{% snippet "snippets/language_switcher.html" %}</li>
+              {% endif %}
+              {% endblock %}
+            </ul>
+          </div>
+        {% else %}
+          <nav class="account not-authed">
+            <ul class="unstyled">
+              {% block header_account_notlogged %}
+              <li>{% link_for _('Log in'), controller='user', action='login' %}</li>
+              {% if h.check_access('user_create') %}
+                <li>{% link_for _('Register'), controller='user', action='register', class_='sub' %}</li>
+              {% endif %}
+              {% endblock %}
+              <li><a href="{{ h.url('/pages/faq') }}" class="sub">{{ _('FAQ') }}</a></li>
+              {% if not c.resource %}
+                 <li>{% snippet "snippets/language_switcher.html" %}</li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+          {% endblock %}
+      </div>
+    </header>
+  {% endblock %} <!-- ends of edditing omary 21-02-2014 -->
+  </div>
+  {% block header_logo %}
+      <div class="row">
+         <div class="header ">  
+         <div class="container">
+                    <div class="span12">
+              
+              <a href="{{ h.url('home') }}"><div class="logo"></div></a>
+              <div class=" slogan">
+            <p id="head"><span><b>o</b></span>{{ _('pendata.go.tz') }}</p>
+            <p id="foot">{{ _('Government Open Data Portal') }}</p>
+            </div>
+            </div>
+        </div>
+        </div>
+
+      </div>
+      {% endblock %}
+    </div>
+    <div class="menu">
+    <div class="container">
+    <div class="row">
+      
+        <div class="span12  " >
+        {% block header_site_navigation %}          
+        <div class="right-menu menu-resize">
+        <ul class="menu-nav">
+            <li> <a href="{{ h.url('home') }}"> {{ _('Home') }} </a></li>
+          {{ h.build_nav_main(('search', _('Datasets'))) }}
+          {{ h.build_nav_main(('organizations_index', _('Organizations'))) }}
+          {{ h.build_nav_main(('group_index', _('Groups'))) }}
+          <li> <a href="{{ h.url('/dash') }}" >{{ _('Visualization Gallery') }} </a></li> 
+           <li> <a href="http://suggest.opendata.go.tz/{{ request.environ.CKAN_LANG }}">{{ _('Suggestions') }} </a></li>       
+           <li> <a href="{{ h.url('/pages/about') }}"> {{ _('About') }} </a></li>
+        
+
+        </ul>
+        </div>
+        {% endblock %}
+        {% block header_site_search %}
+        <div class="left-menu menu-resize">
+          <form class="section site-search simple-input" action="{% url_for controller='package', action='search' %}" method="get">
+          <div class="field">
+            <label for="field-sitewide-search">{{ _('Search Datasets') }}</label>
+            <input id="field-sitewide-search" type="text" style=""class="search_top" name="q" placeholder="{{ _('Search datasets...') }}" />
+            <button style="" class="btn-search" type="submit"><i class="icon-search" ></i></button>
+
+            
+          </div>
+        </form>
+        </div>
+        {% endblock %}
+        </div>
+        </div>
+    </div>
+     </div>
+     </div>
+  </div><!-- end of fixed menu -->
+  <div class="mid-body"></div>
+  {% endblock %}
