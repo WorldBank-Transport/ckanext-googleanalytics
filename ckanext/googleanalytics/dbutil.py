@@ -100,7 +100,6 @@ def get_top_packages(limit=20):
         if not item.count():
             continue
         items.append((item.first(), recent, ever))
-    print 'packages', len(items)
     return items
 
 
@@ -120,3 +119,11 @@ def get_top_resources(limit=20):
             continue
         items.append((item.first(), recent, ever))
     return items
+
+def get_resources_count():
+  connection = model.Session.connection()
+  resources = get_table('resource')
+  s = select([resources]).order_by(resources.c.id)
+  res = connection.execute(s).rowcount
+
+  return res

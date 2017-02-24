@@ -29,6 +29,7 @@ class GAController(BaseController):
         # get package objects corresponding to popular GA content
         c.top_resources = dbutil.get_top_resources(limit=20)
         c.top_packages = dbutil.get_top_packages(limit=20)
+        c.resources = dbutil.get_resources_count()
         return render('summary.html')
 
 class GAApiController(ApiController):

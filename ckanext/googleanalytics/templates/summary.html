@@ -20,7 +20,7 @@
 {% block content_action %}
 
   <div>
-  	{%if c.top_packages %}
+{%if c.top_packages %}
       <h2>Most viewed datasets</h2> 
       <p><em>Note: this data does not include API calls</em></p>
 
@@ -41,28 +41,33 @@
        </table>
     {% endif %}
 
-    {%if c.top_resources %}
-
-      <h2>Most downloaded resources</h2> 
-       <table class="table table-condensed table-bordered table-striped">
-	 <tr>
-	   <th>Resource</th>
-	   <th>Downloads (last 14 days)</th>
-	   <th>Downloads (since recording started)</th>
-	 </tr>
-        {% for resource, recent, ever in c.top_resources %}
-	  <tr>
-	    <td>{{resource.name}}<br />
-	    </td>
-	    <td>{{recent}}</td>
-	    <td>{{ever}}</td>
-	  </tr>
-        {% endfor %}
-       </table>
+{% if c.resources %}
+    <div>
+       <h2>{{_('Total Number of Resources')}}: <span class="text-info">{{c.resources}}</span></h2> 
+    </div>
+    <hr>
     {% endif %}
-
+{% if c.top_resources %}
+  <div >
+   <h2>Most downloaded resources</h2> 
+   <table class="table table-condensed table-bordered table-striped">
+  	 <tr>
+  	   <th>Resource</th>
+  	   <th>Downloads (last 14 days)</th>
+  	   <th>Downloads (since recording started)</th>
+  	 </tr>
+          {% for resource, recent, ever in c.top_resources %}
+  	  <tr>
+  	    <td>{{resource.name}}<br />
+  	    </td>
+  	    <td>{{recent}}</td>
+  	    <td>{{ever}}</td>
+  	  </tr>
+          {% endfor %}
+    </table>
+    </div>
+    {% endif %}
   </div>
-
   {% endblock %}
 
 
