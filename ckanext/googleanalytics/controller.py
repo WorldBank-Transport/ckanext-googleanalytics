@@ -27,10 +27,15 @@ log = logging.getLogger('ckanext.googleanalytics')
 class GAController(BaseController):
     def view(self):
         # get package objects corresponding to popular GA content
-        c.top_resources = dbutil.get_top_resources(limit=20)
-        c.top_packages = dbutil.get_top_packages(limit=20)
-        c.resources = dbutil.get_resources_count()
-        return render('summary.html')
+        user = p.toolkit.c.userobj
+        if user:
+            if user.sysadmin:
+                c.top_resources = dbutil.get_top_resources(limit=20)
+                c.resources = dbutil.get_resources_count()
+                # TODO: Check why packages have zero views
+                # c.top_packages = dbutil.get_top_packages(limit=20)
+                return render('summary.html')
+        return render("error.html")
 
 class GAApiController(ApiController):
     # intercept API calls to record via google analytics
