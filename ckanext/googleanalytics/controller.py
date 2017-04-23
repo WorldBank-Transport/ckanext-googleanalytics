@@ -30,7 +30,7 @@ class GAController(BaseController):
                 c.top_resources = dbutil.get_top_resources(limit=20)
                 c.resources = dbutil.get_resources_count()
                 # TODO: Check why packages have zero views
-                # c.top_packages = dbutil.get_top_packages(limit=20)
+                c.top_packages = dbutil.get_top_packages(limit=20)
                 return render('summary.html')
         return render("error.html")
 
